@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewBag.Title = "User Registration ";
+}
+
+<h2>Index</h2>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/common.js"></script>
+<style>
+    /*div {
+        float: left;
+        width: 100%;
+    }
+
+    table {
+        float: left;
+        width: 100%;
+    }
+
+    thead {
+        background-color: red;
+        display: block;
+        float: left;
+        width: 98%;
+    }
+
+    tr {
+        float: left;
+        width: 100%;
+    }
+
+    th, td {
+        float: left;
+        text-align: center;
+        width: 32.6% !important;
+    }
+
+    span {
+        word-wrap: break-word;
+    }*/
+</style>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        User Registration
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th style="text-align:right">First Name:</th>
+                <th>
+                    <input type="text" id="userFname" />
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Last Name:</th>
+
+                <th>
+                    <input type="text" id="userLName" />
+                </th>
+
+            </tr>
+            <tr>
+                <th style="text-align:right">Email:</th>
+                <th>
+                    <input type="text" id="userEmail" />
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Password:</th>
+                <th>
+                    <input type="password" id="userPassword" />
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Confirm Password</th>
+                <th>
+                    <input type="password" id="userConfirmPassword" />
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Gender:</th>
+                <th>
+                    <select id="Gender">
+                        <option value="male">Male</option>
+                        <option value="female">Male</option>
+                    </select>
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Mobile:</th>
+                <th>
+                    <input type="text" id="userPhone" />
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="panel-body">
+        @*<table class="table table-bordered" align="center" style="display:none;width:60%" id="Table">
+                <tr>
+                    <td style="width:50%;text-align:center"><b>Attribute Name</b></td>
+                    <td style="width:50%;text-align:center"><b>Attributr Value</b></td>
+                </tr>
+
+            </table>*@
+        <table class="table table-bordered">
+            <tr>
+                <th colspan="2" style="text-align:center"><button id="btnSubmit">Submit</button></th>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+            if (isValidUser()) {
+
+                var fname = $.trim($("#userFname").val());
+                var lName = $.trim($("#userLName").val());
+                var email = $.trim($("#userEmail").val());
+                var password = $.trim($("#userPassword").val());
+                var phone = $.trim($("#userPhone").val());
+                var gender = $('#Gender').find(":selected").val();
+
+
+
+                var userData = {
+                    FirstName: fname,
+                    LastName: lName,
+                    Email: email,
+                    Password: password,
+                    Phone: phone,
+                    Gender:gender
+                }
+
+                var url = commonUtility.baseUrl + "User";
+                commonUtility.ajaxPostCall(url, userData, successInsert);
+
+            }
+
+        });
+
+        function successInsert(data) {
+
+            $("#userFname").val('');
+            $("#userLName").val('');
+            $("#userEmail").val('');
+            $("#userPassword").val('');
+            $("#userPhone").val('');
+            alert("Product Insert successfully.");
+
+            //if (data.ProductId > 0) {
+
+
+            //}
+        }
+
+        function getCategoryData() {
+
+            var url = commonUtility.baseUrl + "Category";
+            commonUtility.ajaxGetCall(url, setCategoryList);
+        }
+
+        function generateAttribute(data) {
+            $("#DIV").html('');
+            $("#Table").find("tr:gt(0)").remove();
+            $("#Table").show();
+            var DIV = '';
+            $.each(data, function (i, item) {
+                var rows = "<tr>" +
+                    "<td style='text-align:center;'>" + item.AttributeName + "</td>" +
+                    "<td><input type='text' class='requiredField' id='" + item.AttributeId + "'></td>" +
+                    "</tr>";
+                $('#Table').append(rows);
+            }); //End of foreach Loop
+        }
+
+        function setCategoryList(data) {
+            $.each(data, function () {
+                $("#category").append($("<option     />").val(this.CategoryId).text(this.CategoryName));
+            });
+        }
+
+        function getProductLookUp(categoryId) {
+
+            var url = commonUtility.baseUrl + "ProductLookUp/" + categoryId;
+            commonUtility.ajaxGetCall(url, generateAttribute);
+        }
+
+        function isValidUser() {
+
+            var isValidate = true;
+            var userEmail = $.trim($("#userEmail").val());
+            var userPassword = $.trim($("#userPassword").val());
+            var userConfirmPassword = $.trim($("#userConfirmPassword").val());
+
+
+            if (userEmail.length== 0) {
+                isValidate = false;
+                alert("Please enter User Email.");
+                return isValidate;
+
+            }
+
+            if (userPassword.length == 0) {
+                isValidate = false;
+                alert("Please select Product category.");
+                return isValidate;
+
+            }
+
+            if (userPassword != userConfirmPassword) {
+                isValidate = false;
+                alert("Password should be match");
+                return isValidate;
+
+            }
+
+            return isValidate;
+
+        }
+
+
+    });
+</script>
