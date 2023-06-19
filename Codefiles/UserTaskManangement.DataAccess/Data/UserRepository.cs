@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -33,6 +35,20 @@ namespace UserTaskManangement.DataAccess.Data
             queryParameters.Add("@Phone", user.Phone);
             // queryParameters.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
             await WithConnection(async c => await c.ExecuteAsync(sql: _configuration.AddUser, param: queryParameters, commandType: CommandType.StoredProcedure));
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var queryParameters = new DynamicParameters();
+            queryParameters.Add("@email", email);
+            return (await WithConnection(async c => await c.QueryAsync<User>(sql: _configuration.GetUser, param: queryParameters, commandType: CommandType.StoredProcedure)))?.ToList()?.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            var queryParameters = new DynamicParameters();
+
+            return (await WithConnection(async c => await c.QueryAsync<User>(sql: _configuration.GetUsers, param: queryParameters, commandType: CommandType.StoredProcedure)));
         }
     }
 }

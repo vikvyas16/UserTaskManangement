@@ -3,7 +3,7 @@
     ViewBag.Title = "User Registration ";
 }
 
-<h2>Index</h2>
+
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Scripts/common.js"></script>
 <style>
@@ -48,27 +48,27 @@
             <tr>
                 <th style="text-align:right">First Name:</th>
                 <th>
-                    <input type="text" id="userFname" />
+                    <input type="text" id="userFname" />&nbsp;<font color="red">*</font>
                 </th>
             </tr>
             <tr>
                 <th style="text-align:right">Last Name:</th>
 
                 <th>
-                    <input type="text" id="userLName" />
+                    <input type="text" id="userLName" />&nbsp;<font color="red">*</font>
                 </th>
 
             </tr>
             <tr>
                 <th style="text-align:right">Email:</th>
                 <th>
-                    <input type="text" id="userEmail" />
+                    <input type="text" id="userEmail" />&nbsp;<font color="red">*</font>
                 </th>
             </tr>
             <tr>
                 <th style="text-align:right">Password:</th>
                 <th>
-                    <input type="password" id="userPassword" />
+                    <input type="password" id="userPassword" />&nbsp;<font color="red">*</font>
                 </th>
             </tr>
             <tr>
@@ -122,8 +122,6 @@
                 var phone = $.trim($("#userPhone").val());
                 var gender = $('#Gender').find(":selected").val();
 
-
-
                 var userData = {
                     FirstName: fname,
                     LastName: lName,
@@ -147,7 +145,7 @@
             $("#userEmail").val('');
             $("#userPassword").val('');
             $("#userPhone").val('');
-            alert("Product Insert successfully.");
+            alert("User Insert successfully.");
 
             //if (data.ProductId > 0) {
 
@@ -155,37 +153,6 @@
             //}
         }
 
-        function getCategoryData() {
-
-            var url = commonUtility.baseUrl + "Category";
-            commonUtility.ajaxGetCall(url, setCategoryList);
-        }
-
-        function generateAttribute(data) {
-            $("#DIV").html('');
-            $("#Table").find("tr:gt(0)").remove();
-            $("#Table").show();
-            var DIV = '';
-            $.each(data, function (i, item) {
-                var rows = "<tr>" +
-                    "<td style='text-align:center;'>" + item.AttributeName + "</td>" +
-                    "<td><input type='text' class='requiredField' id='" + item.AttributeId + "'></td>" +
-                    "</tr>";
-                $('#Table').append(rows);
-            }); //End of foreach Loop
-        }
-
-        function setCategoryList(data) {
-            $.each(data, function () {
-                $("#category").append($("<option     />").val(this.CategoryId).text(this.CategoryName));
-            });
-        }
-
-        function getProductLookUp(categoryId) {
-
-            var url = commonUtility.baseUrl + "ProductLookUp/" + categoryId;
-            commonUtility.ajaxGetCall(url, generateAttribute);
-        }
 
         function isValidUser() {
 
@@ -215,9 +182,23 @@
                 return isValidate;
 
             }
+            if (IsEmail(userEmail) == false) {
+                alert("Password enter valid email");
+                return false;
+            }
 
             return isValidate;
 
+        }
+
+         function IsEmail(email) {
+            var regex =/^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            if (!regex.test(email)) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
 
 

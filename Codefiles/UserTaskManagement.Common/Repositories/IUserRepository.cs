@@ -10,5 +10,9 @@ namespace UserTaskManagement.Common.Repositories
     public interface IUserRepository
     {
         Task AddUserAsync(User user);
+
+        Task<User> GetUserByEmail(string email);
+
+        Task<IEnumerable<User>> GetUsers();
     }
 }

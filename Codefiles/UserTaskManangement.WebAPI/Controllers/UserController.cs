@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
-using System.Net.Http;
+using System.Web.Http;
 using System.Web.Http.Cors;
-//using System.Web.Mvc;
 using UserTaskManagement.Common.Models;
 using UserTaskManagement.Services.Repositories;
-using System.Web.Http;
-//using System.Web.Mvc;
 
 namespace UserTaskManangement.WebAPI.Controllers
 {
@@ -18,10 +12,7 @@ namespace UserTaskManangement.WebAPI.Controllers
     {
         // GET: User
         IUserService _userService;
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+      
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -33,6 +24,14 @@ namespace UserTaskManangement.WebAPI.Controllers
         {
             await _userService.AddUser(user);
           
+
+        }
+        [HttpGet]
+        [Route("api/Users")]
+        public async Task<IEnumerable<User>> getUsers()
+        {
+            return await _userService.GetUsers();
+
 
         }
     }

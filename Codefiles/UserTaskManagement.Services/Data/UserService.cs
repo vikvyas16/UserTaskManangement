@@ -40,5 +40,19 @@ namespace UserTaskManagement.Services.Data
 
             }
         }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+           var user= await _userRepository.GetUserByEmail(email);
+
+            return user;
+        }
+
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            var user = await _userRepository.GetUsers();
+
+            return user;
+        }
     }
 }

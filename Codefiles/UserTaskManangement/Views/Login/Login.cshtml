@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "User Registration ";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/common.js"></script>
+<style>
+    /*div {
+        float: left;
+        width: 100%;
+    }
+
+    table {
+        float: left;
+        width: 100%;
+    }
+
+    thead {
+        background-color: red;
+        display: block;
+        float: left;
+        width: 98%;
+    }
+
+    tr {
+        float: left;
+        width: 100%;
+    }
+
+    th, td {
+        float: left;
+        text-align: center;
+        width: 32.6% !important;
+    }
+
+    span {
+        word-wrap: break-word;
+    }*/
+</style>
+<div class="panel panel-primary">
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="2" style="text-align:right"><button id="btnRegister">Register</button></th>
+        </tr>
+    </table>
+    <div class="panel-heading">
+      
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th style="text-align:right">Email:</th>
+                <th>
+                    <input type="text" id="userEmail" />&nbsp;<font color="red">*</font>
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Password:</th>
+                <th>
+                    <input type="password" id="userPassword" />&nbsp;<font color="red">*</font>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th colspan="2" style="text-align:center"><button id="btnSubmit">Submit</button></th>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $("#btnRegister").click(function () {
+
+        window.location.href = "@Url.Action("Index", "User")";
+        });
+
+        $("#btnSubmit").click(function () {
+            if (isValidUser()) {
+
+                var email = $.trim($("#userEmail").val());
+                var password = $.trim($("#userPassword").val());
+
+                var userData = {
+                    Email: email,
+                    Password: password,
+                }
+
+                $.post("/Login/UserValidate",
+                    userData,
+                    function (response) {
+
+                        if (response.UserId > 0) {
+                            window.location.href = "@Url.Action("Index", "UserTask")";
+
+                        } else {
+                            alert("Invalid User.");
+
+                        }
+
+                    }
+                );
+            }
+
+        });
+
+        function successInsert(data) {
+
+            $("#userFname").val('');
+            $("#userLName").val('');
+            $("#userEmail").val('');
+            $("#userPassword").val('');
+            $("#userPhone").val('');
+            alert("Product Insert successfully.");
+
+            //if (data.ProductId > 0) {
+
+
+            //}
+        }
+
+
+        function generateAttribute(data) {
+            $("#DIV").html('');
+            $("#Table").find("tr:gt(0)").remove();
+            $("#Table").show();
+            var DIV = '';
+            $.each(data, function (i, item) {
+                var rows = "<tr>" +
+                    "<td style='text-align:center;'>" + item.AttributeName + "</td>" +
+                    "<td><input type='text' class='requiredField' id='" + item.AttributeId + "'></td>" +
+                    "</tr>";
+                $('#Table').append(rows);
+            }); //End of foreach Loop
+        }
+
+        function isValidUser() {
+
+            var isValidate = true;
+            var userEmail = $.trim($("#userEmail").val());
+            var userPassword = $.trim($("#userPassword").val());
+
+            if (userEmail.length == 0) {
+                isValidate = false;
+                alert("Please enter User Email.");
+                return isValidate;
+
+            }
+
+            if (userPassword.length == 0) {
+                isValidate = false;
+                alert("Please Enter Password.");
+                return isValidate;
+
+            }
+            if (IsEmail(userEmail) == false) {
+                alert("Password enter valid email");
+                isValidate = false;
+                return isValidate;
+            }
+
+            return isValidate;
+
+        }
+        function IsEmail(email) {
+            var regex = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            if (!regex.test(email)) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+
+    });
+</script>

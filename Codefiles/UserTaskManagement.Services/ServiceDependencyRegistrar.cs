@@ -14,6 +14,7 @@ namespace UserTaskManagement.Services
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserTaskService>().As<IUserTaskService>().InstancePerLifetimeScope();
             //builder.RegisterType<ProductAttributeLookUpService>().As<IProductAttributeLookUpService>().InstancePerLifetimeScope();
             //builder.RegisterType<ProductAttributeService>().As<IProductAttributeService>().InstancePerLifetimeScope();
             base.Load(builder);

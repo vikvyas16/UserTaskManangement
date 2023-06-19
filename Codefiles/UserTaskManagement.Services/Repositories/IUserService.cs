@@ -9,8 +9,9 @@ namespace UserTaskManagement.Services.Repositories
 {
     public interface IUserService
     {
-        //Task<Product> GetProductByIdAsync(int id);
+        Task<User> GetUserByEmailAsync(string email);
         //Task<IEnumerable<Category>> GetProductCategoryAsync();
         Task AddUser(User user);
+        Task<IEnumerable<User>> GetUsers();
     }
 }

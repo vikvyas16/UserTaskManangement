@@ -14,18 +14,21 @@ namespace UserTaskManagement.Common.Configuration
             DbConnection = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
 
             AddUser = "usp_InsertUser";
+            GetUser = "GetUserByEmail";
+            GetUsers = "GetUsers";
+            AddUserTask = "usp_InsertUserTask";
+            GetUserTask = "GetUserTaskByUserId";
         }
 
-        //public string UpdateProduct { get; }
         public string DbConnection { get; }
-        //public string GetProductLookUp { get; }
-        //public string GetProductById { get; }
-        //public string GetProductCategory { get; }
-        //public string GetProductAttributeLookUpByCategoryId { get; }
-        //public string AddProductAttributes { get; }
+      
         public string AddUser { get; }
-        
+        public string GetUser { get; }
 
+        public string GetUsers { get; }
 
+        public string AddUserTask { get; }
+
+        public string GetUserTask { get; }
     }
 }
