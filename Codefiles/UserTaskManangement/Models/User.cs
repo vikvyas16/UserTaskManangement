@@ -34,5 +34,8 @@ namespace UserTaskManangement.Models
         public string CreatedBy { get; set; }
 
         public string FullName { get; set; }
+        public string TaskStatus { get; set; }
+
+        public string TaskPriority { get; set; }
     }
 }

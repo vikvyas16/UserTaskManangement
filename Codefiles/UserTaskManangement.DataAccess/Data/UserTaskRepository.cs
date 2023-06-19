@@ -34,6 +34,8 @@ namespace UserTaskManangement.DataAccess.Data
             queryParameters.Add("@comment", user.Comment);
             queryParameters.Add("@AssineeId", user.AssigneeId);
             queryParameters.Add("@CeratedBy", user.CreatedBy);
+            queryParameters.Add("@TaskStatus", user.TaskStatus);
+            queryParameters.Add("@TaskPriority", user.TaskPriority);
             await WithConnection(async c => await c.ExecuteAsync(sql: _configuration.AddUserTask, param: queryParameters, commandType: CommandType.StoredProcedure));
         }
 

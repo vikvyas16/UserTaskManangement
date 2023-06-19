@@ -80,6 +80,28 @@
                     </select>
                 </th>
             </tr>
+
+            <tr>
+                <th style="text-align:right">Priority:</th>
+                <th>
+                    <select id="drPriority">
+                        <option value="High">High</option>
+                        <option value="Low">Low</option>
+                        <option value="severe">severe</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Task Status:</th>
+                <th>
+                    <select id="drStatus">
+                        <option value="Done">Done</option>
+                        <option value="InProgress">In Progress</option>
+                        <option value="Hold">Hold</option>
+                    </select>
+                </th>
+            </tr>
             <tr>
                 <th style="text-align:right">Comment:</th>
                 <th>
@@ -116,17 +138,19 @@
                 var taskTitle = $.trim($("#taskTitle").val());
                 var dueDate = $.trim($("#taskDueDate").val());
                 var comment = $.trim($("#taskComments").val());
-                var assigneId = $('#drassineUser').find(":selected").val();
+            var assigneId = $('#drassineUser').find(":selected").val();
+            var priority = $('#drPriority').find(":selected").val();
+            var status = $('#drStatus').find(":selected").val();
             var createdTaskUser = '@ViewBag.TaskCratedBy' != "" ? '@ViewBag.TaskCratedBy' : 1;
-
-
 
                 var userTaskData = {
                     TaskTitle: taskTitle,
                     DueDate: dueDate,
                     Comment: comment,
                     AssigneeId: assigneId,
-                    CreatedBy: createdTaskUser
+                    CreatedBy: createdTaskUser,
+                    TaskStatus: status,
+                    TaskPriority: priority
                 }
 
                 var url = commonUtility.baseUrl + "AddUserTask";

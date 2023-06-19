@@ -40,6 +40,11 @@
     }*/
 </style>
 <div class="panel panel-primary">
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="2" style="text-align:right"><button id="btnLogin">Login</button></th>
+        </tr>
+    </table>
     <div class="panel-heading">
         User Registration
     </div>
@@ -111,6 +116,11 @@
 </div>
 <script>
     $(document).ready(function () {
+
+        $("#btnLogin").click(function () {
+
+         window.location.href = "@Url.Action("Index", "Login")";
+        });
 
         $("#btnSubmit").click(function () {
             if (isValidUser()) {
