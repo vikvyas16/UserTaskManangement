@@ -17,5 +17,9 @@ namespace UserTaskManagement.Common.Configuration
 
         string AddUserTask { get; }
         string GetUserTask { get; }
+
+        string AddUserRemider { get; }
+
+        string getUserRemider { get; }
     }
 }

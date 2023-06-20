@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "User Remainder ";
+    ViewBag.TaskCratedBy = Convert.ToString(Session["UserId"]);
+}
+
+
+<head>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jqueryUiCss")
+    @Scripts.Render("~/bundles/jquery");
+    @Scripts.Render("~/bundles/jqueryui");
+    @*<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>*@
+    <script src="~/Scripts/common.js"></script>
+
+    <style>
+        /*div {
+            float: left;
+            width: 100%;
+        }
+
+        table {
+            float: left;
+            width: 100%;
+        }
+
+        thead {
+            background-color: red;
+            display: block;
+            float: left;
+            width: 98%;
+        }
+
+        tr {
+            float: left;
+            width: 100%;
+        }
+
+        th, td {
+            float: left;
+            text-align: center;
+            width: 32.6% !important;
+        }
+
+        span {
+            word-wrap: break-word;
+        }*/
+    </style>
+
+</head>
+
+
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        User Task Management
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th style="text-align:right">Remainder Message:</th>
+                <th>
+                    <textarea id="rmMessage" name="wtaskComments" cols="80" rows="10"></textarea>&nbsp;<font color="red">*</font>
+                </th>
+            </tr>
+            <tr>
+                <th style="text-align:right">Remainder Date:</th>
+
+                <th>
+                    <input type="text" id="rmDate" class="testdt" />&nbsp;<font color="red">*</font>
+                </th>
+
+            </tr>
+            <tr>
+                <th style="text-align:right">User:</th>
+                <th>
+                    <select id="drassineUser">
+                    </select>&nbsp;<font color="red">*</font>
+                </th>
+            </tr>
+
+            <tr>
+                <th style="text-align:right">Status:</th>
+                <th>
+                    <select id="drStatus">
+                        <option value="1">Active</option>
+                        <option value="0">In Active</option>
+
+                    </select>
+                </th>
+            </tr>
+
+
+        </table>
+    </div>
+    <div class="panel-body">
+
+        <table class="table table-bordered">
+            <tr>
+                <th colspan="2" style="text-align:center; padding-right:480px;"><button id="btnSubmit">Submit</button></th>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+    var $j = jQuery.noConflict();
+    $j(document).ready(function () {
+
+        getUserData();
+
+        $j("#rmDate").datepicker({
+            dateFormat: "mm/dd/yy",
+            changemonth: true,
+            changeyear: true
+        });
+
+        $("#btnSubmit").click(function () {
+            if (isValidRemainderr()) {
+
+                var remainderMessage = $.trim($("#rmMessage").val());
+                var rmDate = $.trim($("#rmDate").val());
+
+                var userId = $('#drassineUser').find(":selected").val();
+                var status = $('#drStatus').find(":selected").val();
+
+                var userRemainder = {
+                    RemainderMessage: remainderMessage,
+                    RemainderDate: rmDate,
+                    UserId: userId,
+                    MessageActive: status,
+                }
+
+                var url = commonUtility.baseUrl + "AddUserRemainder";
+                commonUtility.ajaxPostCall(url, userRemainder, successInsert);
+
+            }
+
+        });
+
+        function successInsert(data) {
+            window.location.href = "@Url.Action("Index", "UserTask")";
+        }
+
+        function getUserData() {
+
+            var url = commonUtility.baseUrl + "Users";
+            commonUtility.ajaxGetCall(url, setUserList);
+        }
+
+
+        function setUserList(data) {
+            $.each(data, function () {
+                $("#drassineUser").append($("<option     />").val(this.UserId).text(this.FirstName));
+            });
+        }
+
+
+
+        function isValidRemainderr() {
+
+            var isValidate = true;
+            var remainderMessage = $.trim($("#rmMessage").val());
+            var rmDate = $.trim($("#rmDate").val());
+            var userId = $('#drassineUser').find(":selected").val();
+
+            if (remainderMessage.length == 0) {
+                isValidate = false;
+                alert("Please enter remainder message.");
+                return isValidate;
+
+            }
+
+            if (rmDate.length == 0) {
+                isValidate = false;
+                alert("Please select date.");
+                return isValidate;
+
+            }
+
+            if (userId.length == 0) {
+                isValidate = false;
+                alert("Please select User.");
+                return isValidate;
+
+            }
+
+            return isValidate;
+        }
+
+    });
+</script>

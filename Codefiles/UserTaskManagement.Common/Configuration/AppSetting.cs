@@ -18,6 +18,8 @@ namespace UserTaskManagement.Common.Configuration
             GetUsers = "GetUsers";
             AddUserTask = "usp_InsertUserTask";
             GetUserTask = "GetUserTaskByUserId";
+            AddUserRemider = "usp_InsertUserRemider";
+            getUserRemider = "GetUserRemider";
         }
 
         public string DbConnection { get; }
@@ -30,5 +32,9 @@ namespace UserTaskManagement.Common.Configuration
         public string AddUserTask { get; }
 
         public string GetUserTask { get; }
+
+        public string AddUserRemider { get; }
+
+        public string getUserRemider { get; }
     }
 }

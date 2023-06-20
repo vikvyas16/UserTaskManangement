@@ -20,6 +20,7 @@ namespace UserTaskManangement.DataAccess
             builder.RegisterType<AppSetting>().As<IAppSetting>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserTaskRepository>().As<IUserTaskRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<UserRemiderRepository>().As<IUserRemainder>().InstancePerLifetimeScope();
             base.Load(builder);
         }
     }

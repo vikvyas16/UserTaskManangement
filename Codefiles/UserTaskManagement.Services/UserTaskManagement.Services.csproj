@@ -92,9 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Data\UserRemiderServices.cs" />
     <Compile Include="Data\UserService.cs" />
     <Compile Include="Data\UserTaskService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IUserRemiderServices.cs" />
     <Compile Include="Repositories\IUserTaskService.cs" />
     <Compile Include="Repositories\IUserService.cs" />
     <Compile Include="ServiceDependencyRegistrar.cs" />

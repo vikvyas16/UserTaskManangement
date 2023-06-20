@@ -99,6 +99,7 @@
                         <option value="Done">Done</option>
                         <option value="InProgress">In Progress</option>
                         <option value="Hold">Hold</option>
+                        <option value="Pending">Pending</option>
                     </select>
                 </th>
             </tr>
@@ -133,7 +134,7 @@
         });
 
         $("#btnSubmit").click(function () {
-            //if (isValidUser()) {
+            if (isValidTaskUser()) {
 
                 var taskTitle = $.trim($("#taskTitle").val());
                 var dueDate = $.trim($("#taskDueDate").val());
@@ -156,7 +157,7 @@
                 var url = commonUtility.baseUrl + "AddUserTask";
                 commonUtility.ajaxPostCall(url, userTaskData, successInsert);
 
-           // }
+            }
 
         });
 
@@ -179,38 +180,35 @@
 
 
 
-        function isValidUser() {
+        function isValidTaskUser() {
 
             var isValidate = true;
-            var userEmail = $.trim($("#userEmail").val());
-            var userPassword = $.trim($("#userPassword").val());
-            var userConfirmPassword = $.trim($("#userConfirmPassword").val());
+            var taskTitle = $.trim($("#taskTitle").val());
+            var dueDate = $.trim($("#taskDueDate").val());
+            var userassined = $('#drassineUser').find(":selected").val();
 
 
-            if (userEmail.length == 0) {
+            if (taskTitle.length == 0) {
                 isValidate = false;
-                alert("Please enter User Email.");
+                alert("Please enter Task title.");
                 return isValidate;
 
             }
 
-            if (userPassword.length == 0) {
+            if (dueDate.length == 0) {
                 isValidate = false;
-                alert("Please select Product category.");
+                alert("Please selectDue Date.");
                 return isValidate;
 
             }
 
-            if (userPassword != userConfirmPassword) {
+            if (userassined.length == 0) {
                 isValidate = false;
-                alert("Password should be match");
+                alert("Please Select assigne User.");
                 return isValidate;
 
             }
-            if (IsEmail(userEmail) == false) {
-                alert("Password enter valid email");
-                return false;
-            }
+           
 
             return isValidate;
 

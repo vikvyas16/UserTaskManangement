@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="DataAccessDependencyRegistrar.cs" />
+    <Compile Include="Data\UserRemiderRepository.cs" />
     <Compile Include="Data\UserRepository.cs" />
     <Compile Include="Data\UserTaskRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,39 +12,33 @@
     <title>User Tasks</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/jqueryUiCss")
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/jquery");
     @Scripts.Render("~/bundles/jqueryui");
 
 
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+    <script src="~/Scripts/toastr.min.js"></script>
     <script src="~/Scripts/common.js"></script>
 
 </head>
 <body>
-    @*<div>
-        <div class="panel-body">
-            <div class="panel-heading">
-                User Task Management
-            </div>
-            <div class="panel-body">
-               
-            </div>
-        </div>
-    </div>*@
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            User Task 
+            User Task
         </div>
         <div class="panel-body">
             <table class="table table-bordered">
                 <tr>
+                    <td style="text-align:Left"><button id="btnAddRemainder">Add Remainder</button></td>
                     <td style="text-align:right"><button id="btnSubmit">Add Task</button></td>
                 </tr>
                 <tr>
                     <td>
-                        .
+                        .<label id="lblPending">Panding Task:<span id="spnPendingCnt"></span></label>
+                        .<label id="lblPending">Completed Task:<span id="spnDoneCnt"></span></label>
                         <table id="userTaskGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
@@ -63,7 +57,7 @@
 
             </table>
         </div>
-        
+
     </div>
 </body>
 
@@ -74,8 +68,12 @@
    //var $j = jQuery.noConflict();
     $(document).ready(function () {
         var userId = '@ViewBag.userId' != "" ? '@ViewBag.userId' : 2;
-
+        toastr.options.extendedTimeOut = 0;
+        toastr.options.timeOut = 0;
         getUserData();
+        displayUserNotifications();
+        displayUserRemainder();
+        setCount();
         var url = commonUtility.baseUrl + "GetUserTask?userId=" + userId;
         function getUserData(url) {
 
@@ -84,6 +82,7 @@
                     "url": "/UserTask/GetUserTask",
                     "type": "GET",
                     "datatype": "json"
+
                 },
                 "columns": [
                     {
@@ -111,7 +110,7 @@
                         "autoWidth": true,
                         "searchable": true
                     },
-                    
+
                     {
                         "data": "DueDate",
                         "autoWidth": true,
@@ -132,19 +131,57 @@
             });
         }
 
-        function setUserTaskList(data) {
-
-            debugger;
-
+        function decodeEntities(encodedString) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return textArea.value;
         }
 
+        function displayUserNotifications() {
 
+            var val = decodeEntities('@ViewBag.notifications');
+
+            var notificationData = JSON.parse(val);
+           // toastr({ settings: { 'timeout': 5000 } });
+            $.each(notificationData, function (key, value) {
+                toastr.error(value.NotificationMessage)
+                }
+           );
+        }
+        function displayUserRemainder() {
+
+            var val = decodeEntities('@ViewBag.userRemainder');
+            var remainders = JSON.parse(val);
+            //toastr.optionsOverride = 'positionclass = "toast-bottom-full-width"';
+
+
+             $.each(remainders, function (key, value) {
+                //toastr.warning(value.NotificationMessage)
+                 toastr.info('Warning', value.NotificationMessage, {
+                     //positionClass: 'toast-bottom-full-width',
+                     //showDuration: 30000,
+
+
+                 })
+
+               }
+           );
+        }
 
 
         $("#btnSubmit").click(function () {
 
-        window.location.href = "@Url.Action("AdUserTask", "UserTask")";
+            window.location.href = "@Url.Action("AdUserTask", "UserTask")";
         });
+        $("#btnAddRemainder").click(function () {
+
+            window.location.href = "@Url.Action("Index", "UserRemainder")";
+        });
+
+        function setCount() {
+            $("#spnPendingCnt").text('@ViewBag.TotalPending');
+            $("#spnDoneCnt").text('@ViewBag.TotalDone');
+        }
 
 
     });
